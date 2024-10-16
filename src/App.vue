@@ -4,6 +4,8 @@ import Center from "./layouts/Center.vue";
 import Toast from "primevue/toast";
 import ConfirmDialog from "primevue/confirmdialog";
 
+import Header from "./components/header/Header.vue";
+
 import type { Component } from "vue";
 import { computed } from "vue";
 import { useRoute } from "vue-router";
@@ -28,6 +30,7 @@ authStore.refresh();
 </script>
 
 <template>
+  <Header></Header>
   <transition name="fade" mode="out-in">
     <component :is="components[layout]"></component>
   </transition>

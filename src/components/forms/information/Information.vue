@@ -53,7 +53,7 @@ const mask = `99°99'99"`;
       </Group>
       <Group :title="'Присвоенный номер:'">
         <template #input>
-          <InputNumber :value="item.number" placeholder="Целое значение" @update:modelValue="emit('update-field', { field: 'number', value: $event })"></InputNumber>
+          <InputText :value="item.number" placeholder="Целое значение" @update:modelValue="emit('update-field', { field: 'number', value: $event })"></InputText>
         </template>
       </Group>
       <Group :title="'Состояние почвенного профиля:'">

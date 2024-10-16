@@ -22,7 +22,15 @@ export const Post = async (url: string, object: object) => {
 };
 
 export const Get = async (url: string) => {
-  const res = await fetch(url);
+  const jwt: string = localStorage.getItem("KRIO_SYSTEM") || "";
+
+  const headers = new Headers();
+  headers.set("jwt", jwt);
+
+  const res = await fetch(url, {
+    headers: headers,
+  });
+
   const json = await res.json();
 
   if (res.ok) {
@@ -59,10 +67,15 @@ export const Remove = async (url: string) => {
   const jwt: string = localStorage.getItem("KRIO_SYSTEM") || "";
 
   const headers = new Headers();
-  
+
   headers.set("Content-Type", "application/json");
   headers.set("jwt", jwt);
 
-  await fetch(`${url}`, { method: "DELETE", headers: headers });
-  return true;
+  const res = await fetch(`${url}`, { method: "DELETE", headers: headers });
+
+  if (res.ok) {
+    return true;
+  } else {
+    throw new Error(res.toString());
+  }
 };

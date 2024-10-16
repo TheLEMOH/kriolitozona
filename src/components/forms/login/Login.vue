@@ -34,7 +34,7 @@ const Enter = () => {
 <style>
 .login {
   max-width: 600px;
-  background: transparent;
+  background: var(--surface-0);
   padding: 2rem;
   color: #fff;
   margin: 1rem;

@@ -8,13 +8,13 @@ import { Post } from "../service/download";
 import router from "../router/index";
 
 interface State {
-  client: UserInterface;
+  client: UserInterface | null;
   isEntered: Boolean;
 }
 
 export const useAuthStore = defineStore("auth", {
   state: (): State => ({
-    client: {},
+    client: null,
     isEntered: false,
   }),
 
@@ -26,6 +26,7 @@ export const useAuthStore = defineStore("auth", {
 
       if (data) {
         const token = data.token;
+
         this.decodeAndSet(token);
 
         router.push({ name: "home" });
@@ -37,7 +38,10 @@ export const useAuthStore = defineStore("auth", {
 
     decodeAndSet(token: string) {
       const decode: UserInterface = jwtDecode(token);
+
       this.client = decode;
+      this.isEntered = true;
+
       localStorage.setItem("KRIO_SYSTEM", token);
     },
 
@@ -53,6 +57,8 @@ export const useAuthStore = defineStore("auth", {
       } else {
         localStorage.removeItem("KRIO_SYSTEM");
 
+        this.isEntered = false;
+
         router.push({ name: "login" });
       }
     },
@@ -60,11 +66,14 @@ export const useAuthStore = defineStore("auth", {
     async quit() {
       localStorage.removeItem("KRIO_SYSTEM");
 
+      this.isEntered = false;
+
       router.push({ name: "login" });
     },
   },
 
   getters: {
     getClient: (state) => state.client,
+    getIsEnteted: (state) => state.isEntered,
   },
 });

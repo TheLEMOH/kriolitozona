@@ -10,13 +10,30 @@ const route = useRoute();
 const authStore = useAuthStore();
 
 const client = computed(() => authStore.getClient);
+const isEntered = computed(() => authStore.isEntered);
 
-const items = ref([
-  { label: "Главная", icon: "pi pi-home", route: { name: "home" } },
+const itemsUser = ref([
+  { label: "Список экспериментов", icon: "pi pi-home", route: { name: "home" } },
+  { label: "Добавить эксперимент", icon: "pi pi-plus-circle", route: { name: "experimentCreate" } },
   { label: "Пользователи", icon: "pi pi-users", route: { name: "userAll" } },
   { label: "Добавить пользователя", icon: "pi pi-plus-circle", route: { name: "userCreate" } },
-  { label: "Добавить эксперимент", icon: "pi pi-plus-circle", route: { name: "experimentCreate" } },
+  { label: "О проекте", icon: "pi pi-info-circle", route: { name: "about" } },
+  { label: "Контакты", icon: "pi pi-phone", route: { name: "contacts" } },
 ]);
+
+const itemsGuest = ref([
+  { label: "Войти", icon: "pi pi-sign-in", route: { name: "login" } },
+  { label: "О проекте", icon: "pi pi-info-circle", route: { name: "about" } },
+  { label: "Контакты", icon: "pi pi-phone", route: { name: "contacts" } },
+]); 
+
+const items = computed(() => {
+  if (isEntered.value) {
+    return itemsUser.value;
+  } else {
+    return itemsGuest.value;
+  }
+});
 
 const active = ref(0);
 
@@ -45,11 +62,14 @@ watch(name, () => {
         </router-link>
       </template>
     </TabMenu>
-    <Divider layout="vertical" />
-    <div class="menubar-user">
-      {{ client.login }}
-      <Button label="Выйти" size="small" rounded @click="authStore.quit()"> </Button>
-    </div>
+    <template v-if="isEntered">
+      <Divider layout="vertical" />
+
+      <div class="menubar-user">
+        {{ client?.login }}
+        <Button icon="pi pi-sign-out" text rounded @click="authStore.quit()"> </Button>
+      </div>
+    </template>
   </header>
 </template>
 

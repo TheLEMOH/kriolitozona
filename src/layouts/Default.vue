@@ -1,11 +1,9 @@
 <script lang="ts" setup>
-import Header from "../components/header/Header.vue";
 import ProgressBar from "primevue/progressbar";
 </script>
 
 <template>
   <div class="default">
-    <Header></Header>
     <div class="default-body">
       <Suspense>
         <router-view v-slot="{ Component }">
