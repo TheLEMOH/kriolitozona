@@ -4,6 +4,7 @@ import { useRoute } from "vue-router";
 
 import Form from "../../../components/forms/shared/Form.vue";
 import GroupDisplay from "../../../components/forms/shared/GroupDisplay.vue";
+import MeasurementCardDetails from "../../forms/measurements/MeasurementCardDetails.vue";
 
 import ProfileHorizon from "../../../components/tables/experiments/ProfileHorizon.vue";
 import ProfileDepth from "../../../components/tables/experiments/ProfileDepth.vue";
@@ -32,29 +33,49 @@ const route = useRoute();
 
 const id = route.params.id;
 
+const dictonary: Record<string, string> = {
+  true: 'Да',
+  false: 'Нет'
+}
+
 const item: Ref = ref<ExperimentDTO>(await ExperimentService.getById(id));
 const horizons: Ref = ref<HorizonDTO[]>(await HorizonService.getByExperiment(id));
 const depths: Ref = ref<DepthDTO[]>(await DepthService.getByExperiment(id));
 const measurements: Ref = ref<MeasurementDTO[]>(await MeasurementService.getByExperiment(id));
 
-const humiditySeries: Series[] = createChartSeries.lineChart<DepthDTO>(depths.value, "value", "humidity");
-const temperatureSeries: Series[] = createChartSeries.lineChart<DepthDTO>(depths.value, "value", "temperatureAtDepth");
-const heatFluxSeries: Series[] = createChartSeries.lineChart<DepthDTO>(depths.value, "value", "heatFluxValue");
-const organicSeries: Series[] = createChartSeries.lineChart<DepthDTO>(depths.value, "value", "organicContentSubstances");
+const groupForChart = [{
+  label: 'График влажности по глубине',
+  x: 'value',
+  y: 'humidity',
+}, {
+  label: 'График распределения температуры по глубине',
+  x: 'value',
+  y: 'temperatureAtDepth',
+}, {
+  label: 'График теплового потока по глубине',
+  x: 'value',
+  y: 'heatFluxValue',
+}, {
+  label: 'График содержания органического вещества по глубине',
+  x: 'value',
+  y: 'organicContentSubstances',
+}]
+
+const charts = groupForChart.map(group => {
+  return { label: group.label, series: createChartSeries.lineChart<DepthDTO>(depths.value, group.x, group.y) };
+})
 
 const title = computed(() => {
   const { name, date } = item.value;
-
   const newDate = new Date(date);
-
   return `${name} от ${newDate.toLocaleString("ru")}`;
 });
 
 const subtitle = computed(() => {
   const { lat, long } = item.value;
-
   return `Координаты местности: ${lat} ${long}`;
 });
+
 </script>
 
 <template>
@@ -69,10 +90,10 @@ const subtitle = computed(() => {
           <GroupDisplay :title="'Состояние почвенного профиля'" :value="item.soilProfileCondition"></GroupDisplay>
           <GroupDisplay :title="'Микрорельеф'" :value="item.microrelief"></GroupDisplay>
           <GroupDisplay :title="'Тип почвы'" :value="item.typeOfSoil"></GroupDisplay>
-          <GroupDisplay :title="'Наличие оглеения'" :value="item.isGleying"></GroupDisplay>
+          <GroupDisplay :title="'Наличие оглеения'" :value="dictonary[item.isGleying]"></GroupDisplay>
         </div>
         <div class="group-space">
-          <GroupDisplay :title="'Присутствие мерзлоты'" :value="item.isPermafrost"></GroupDisplay>
+          <GroupDisplay :title="'Присутствие мерзлоты'" :value="dictonary[item.isPermafrost]"></GroupDisplay>
           <GroupDisplay :title="'Пирогенный фактор'" :value="item.isPyrogenic"></GroupDisplay>
           <GroupDisplay :title="'Граница залегания мерзлоты'" :value="item.permafrostBoundary"></GroupDisplay>
           <GroupDisplay :title="'Число разрезов на почвенном профиле'" :value="item.numberOfSoilCuts"></GroupDisplay>
@@ -93,7 +114,13 @@ const subtitle = computed(() => {
       </template>
     </Form>
 
-    <Form :title="'Практические измерения'" :fill="true">
+    <Form :title="'Практические измерения'" :gap="2" :fill="true">
+      <template #fields>
+        <MeasurementCardDetails :item="item"></MeasurementCardDetails>
+      </template>
+    </Form>
+
+    <Form :title="'Практические измерения теплового потока'" :fill="true">
       <template #fields>
         <Measurements :items="measurements"></Measurements>
       </template>
@@ -102,33 +129,15 @@ const subtitle = computed(() => {
     <ImageEdit :id="item.id" :images="item.images"></ImageEdit>
     <FileEdit :id="item.id" :files="item.files"></FileEdit>
 
-    <Form :title="'График влажности по глубине'" :center="true" :fill="true">
+    <Form v-for="chart in charts" :title="chart.label" :center="true" :fill='true'>
       <template #fields>
-        <LineChart :options="lineLayout" :series="humiditySeries"></LineChart>
-      </template>
-    </Form>
-
-    <Form :title="'График распределения температуры по глубине'" :center="true" :fill="true">
-      <template #fields>
-        <LineChart :options="lineLayout" :series="temperatureSeries"></LineChart>
-      </template>
-    </Form>
-
-    <Form :title="'График теплового потока по глубине'" :center="true" :fill="true">
-      <template #fields>
-        <LineChart :options="lineLayout" :series="heatFluxSeries"></LineChart>
-      </template>
-    </Form>
-
-    <Form :title="'График содержания органического вещества по глубине'" :center="true" :fill="true">
-      <template #fields>
-        <LineChart :options="lineLayout" :series="organicSeries"></LineChart>
+        <LineChart :options="lineLayout" :series="chart.series"></LineChart>
       </template>
     </Form>
   </div>
 </template>
 
-<style>
+<style scoped>
 .group-space {
   display: flex;
   flex-direction: column;

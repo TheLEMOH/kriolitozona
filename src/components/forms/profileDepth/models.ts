@@ -1,11 +1,11 @@
 export default interface DepthDTO {
   name: string;
-  value: Number;
-  temperatureAtDepth?: Number;
-  humidity?: Number;
-  pH?: Number;
-  thermalConductivityIndex?: Number;
-  heatFluxValue?: Number;
-  organicContentSubstances?: Number;
+  value: number;
+  temperatureAtDepth?: number;
+  humidity?: number;
+  pH?: number;
+  thermalConductivityIndex?: number;
+  heatFluxValue?: number;
+  organicContentSubstances?: number;
   experimentId?: number;
 }

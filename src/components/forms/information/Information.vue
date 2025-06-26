@@ -35,56 +35,43 @@ const mask = `99°99'99"`;
     <template #fields>
       <Group :title="'Название пробной площадки:'">
         <template #input>
-          <InputText :value="item.name" placeholder="Текстовое название" @update:modelValue="emit('update-field', { field: 'name', value: $event })"></InputText>
+          <InputText :value="item.name" placeholder="Текстовое название"
+            @update:modelValue="emit('update-field', { field: 'name', value: $event })"></InputText>
         </template>
       </Group>
       <Group :title="'Дата и время проведения эксперимента:'">
         <template #input>
-          <Calendar
-            :modelValue="date"
-            id="calendar24h"
-            placeholder="Дата и время"
-            dateFormat="dd.mm.yy"
-            showTime
-            hourFormat="24"
-            @update:modelValue="emit('update-field', { field: 'date', value: $event })"
-          />
+          <Calendar :modelValue="date" id="calendar24h" placeholder="Дата и время" dateFormat="dd.mm.yy"
+            showTime hourFormat="24" @update:modelValue="emit('update-field', { field: 'date', value: $event })" />
         </template>
       </Group>
       <Group :title="'Присвоенный номер:'">
         <template #input>
-          <InputText :value="item.number" placeholder="Целое значение" @update:modelValue="emit('update-field', { field: 'number', value: $event })"></InputText>
+          <InputNumber :modelValue="item.number" placeholder="Целое значение"
+            @update:modelValue="emit('update-field', { field: 'number', value: $event })"></InputNumber>
         </template>
       </Group>
       <Group :title="'Состояние почвенного профиля:'">
         <template #input>
-          <Dropdown
-            :modelValue="item.soilProfileCondition"
-            :options="stateSoil"
-            optionValue="label"
-            optionLabel="label"
+          <Dropdown :modelValue="item.soilProfileCondition" :options="stateSoil" optionValue="label" optionLabel="label"
             placeholder="Выберите из списка"
-            @update:modelValue="emit('update-field', { field: 'soilProfileCondition', value: $event })"
-          ></Dropdown>
+            @update:modelValue="emit('update-field', { field: 'soilProfileCondition', value: $event })"></Dropdown>
         </template>
       </Group>
       <Group :title="'Ландшафт:'">
         <template #input>
-          <Dropdown
-            :modelValue="item.landscape"
-            :options="landscapes"
-            optionValue="label"
-            optionLabel="label"
+          <Dropdown :modelValue="item.landscape" :options="landscapes" optionValue="label" optionLabel="label"
             placeholder="Выберите из списка"
-            @update:modelValue="emit('update-field', { field: 'landscape', value: $event })"
-          ></Dropdown>
+            @update:modelValue="emit('update-field', { field: 'landscape', value: $event })"></Dropdown>
         </template>
       </Group>
       <Group :title="'Координаты:'">
         <template #input>
           <div class="coordinates">
-            <InputMask :modelValue="item.lat" placeholder="Широта " :mask="mask" @update:modelValue="emit('update-field', { field: 'lat', value: $event })"></InputMask>
-            <InputMask :modelValue="item.long" placeholder="Долгота" :mask="mask" @update:modelValue="emit('update-field', { field: 'long', value: $event })"></InputMask>
+            <InputMask :modelValue="item.lat" placeholder="Широта " :mask="mask"
+              @update:modelValue="emit('update-field', { field: 'lat', value: $event })"></InputMask>
+            <InputMask :modelValue="item.long" placeholder="Долгота" :mask="mask"
+              @update:modelValue="emit('update-field', { field: 'long', value: $event })"></InputMask>
           </div>
         </template>
       </Group>

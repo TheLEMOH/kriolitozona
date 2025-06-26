@@ -5,9 +5,10 @@ import Toast from "primevue/toast";
 import ConfirmDialog from "primevue/confirmdialog";
 
 import Header from "./components/header/Header.vue";
+import useIsMobile from "./composables/useIsMobile";
 
-import type { Component } from "vue";
-import { computed } from "vue";
+import type { Component, ComputedRef } from "vue";
+import { computed, provide } from "vue";
 import { useRoute } from "vue-router";
 
 import { useAuthStore } from "./store/auth";
@@ -23,10 +24,14 @@ const components: Layout<Component> = {
 
 const route = useRoute();
 const authStore = useAuthStore();
+const { isMobile } = useIsMobile()
 
 const layout = computed<string>(() => route.meta.layout as string);
 
 authStore.refresh();
+
+provide<ComputedRef<boolean>>('isMobile', isMobile)
+
 </script>
 
 <template>
@@ -34,14 +39,13 @@ authStore.refresh();
   <transition name="fade" mode="out-in">
     <component :is="components[layout]"></component>
   </transition>
-
   <Toast />
   <ConfirmDialog></ConfirmDialog>
 </template>
 
 <style>
 html {
-  font-size: 14px;
+  font-size: clamp(0.625rem, 0.5472rem + 0.2928vw, 1.25rem);
 }
 
 body {

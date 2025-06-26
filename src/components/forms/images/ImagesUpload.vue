@@ -21,7 +21,7 @@ const Done = (event: FileUploadUploadEvent) => {
       <FileUpload
         name="images"
         :mode="'basic'"
-        accept="image/png"
+        accept="image/*"
         :url="`/api/images/${id}`"
         :multiple="true"
         :showUploadButton="false"

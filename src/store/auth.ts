@@ -40,6 +40,7 @@ export const useAuthStore = defineStore("auth", {
       const decode: UserInterface = jwtDecode(token);
 
       this.client = decode;
+      
       this.isEntered = true;
 
       localStorage.setItem("KRIO_SYSTEM", token);

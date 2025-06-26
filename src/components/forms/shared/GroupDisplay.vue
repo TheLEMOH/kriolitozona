@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 interface Props {
-  title: string;
-  value?: string;
+  title?: string;
+  value?: string | number;
 }
 
 withDefaults(defineProps<Props>(), {
@@ -13,9 +13,9 @@ withDefaults(defineProps<Props>(), {
 <template>
   <div class="form-body-display">
     <span class="form-body-display-label">
-      <b>{{ title }}:</b>
+      {{ title }}:
     </span>
-    <span>{{ value }}</span>
+    <b>{{ value }}</b>
   </div>
 </template>
 
@@ -24,8 +24,8 @@ withDefaults(defineProps<Props>(), {
   display: flex;
   font-size: 1rem;
   flex-direction: row;
-  gap: 1rem;
-  max-width: 350px;
+  gap: 0.5rem;
+  max-width: 400px;
   text-align: justify;
   align-items: start;
   justify-content: space-between;

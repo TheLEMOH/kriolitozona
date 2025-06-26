@@ -24,59 +24,45 @@ const options = [{ label: "Песчаный" }, { label: "Супесчаный" 
         <template #fields>
           <Group :title="'Глубина нижней границы горизонта:'">
             <template #input>
-              <InputText
-                :value="item.depthLowerLimitOfHorizon"
-                placeholder="Целое значение"
-                @update:modelValue="emit('update-field', { field: 'depthLowerLimitOfHorizon', index: index, value: $event })"
-              ></InputText>
+              <InputText :value="item.depthLowerLimitOfHorizon" placeholder="Целое значение"
+                @update:modelValue="emit('update-field', { field: 'depthLowerLimitOfHorizon', index: index, value: $event })">
+              </InputText>
             </template>
           </Group>
           <Group :title="'Плотность горизонта:'">
             <template #input>
-              <InputText
-                :value="item.horizonDensity"
-                placeholder="Десятичное значение"
-                @update:modelValue="emit('update-field', { field: 'horizonDensity', index: index, value: $event })"
-              ></InputText>
+              <InputText :value="item.horizonDensity" placeholder="Десятичное значение"
+                @update:modelValue="emit('update-field', { field: 'horizonDensity', index: index, value: $event })">
+              </InputText>
             </template>
           </Group>
           <Group :title="'Содержание органического вещества:'">
             <template #input>
-              <InputText
-                :value="item.organicContentSubstances"
-                placeholder="Проценты (%)"
-                @update:modelValue="emit('update-field', { field: 'organicContentSubstances', index: index, value: $event })"
-              ></InputText>
+              <InputText :value="item.organicContentSubstances" placeholder="Проценты (%)"
+                @update:modelValue="emit('update-field', { field: 'organicContentSubstances', index: index, value: $event })">
+              </InputText>
             </template>
           </Group>
           <Group :title="'Содержание физ.песка:'">
             <template #input>
-              <InputText
-                :value="item.physicalSandContent"
-                placeholder="Десятичное значение"
-                @update:modelValue="emit('update-field', { field: 'physicalSandContent', index: index, value: $event })"
-              ></InputText>
+              <InputText :value="item.physicalSandContent" placeholder="Десятичное значение"
+                @update:modelValue="emit('update-field', { field: 'physicalSandContent', index: index, value: $event })">
+              </InputText>
             </template>
           </Group>
           <Group :title="'Содержание физ.глины:'">
             <template #input>
-              <InputText
-                :value="item.physicalClayContent"
-                placeholder="Десятичное значение"
-                @update:modelValue="emit('update-field', { field: 'physicalClayContent', index: index, value: $event })"
-              ></InputText>
+              <InputText :value="item.physicalClayContent" placeholder="Десятичное значение"
+                @update:modelValue="emit('update-field', { field: 'physicalClayContent', index: index, value: $event })">
+              </InputText>
             </template>
           </Group>
           <Group :title="'Грансостав:'">
             <template #input>
-              <Dropdown
-                :modelValue="item.granularComposition"
-                :options="options"
-                optionLabel="label"
-                optionValue="label"
-                placeholder="Выберите из списка"
-                @update:modelValue="emit('update-field', { field: 'granularComposition', index: index, value: $event })"
-              ></Dropdown>
+              <Dropdown :modelValue="item.granularComposition" :options="options" optionLabel="label"
+                optionValue="label" placeholder="Выберите из списка"
+                @update:modelValue="emit('update-field', { field: 'granularComposition', index: index, value: $event })">
+              </Dropdown>
             </template>
           </Group>
         </template>

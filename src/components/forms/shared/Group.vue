@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 interface Props {
-  title: string;
+  title?: string;
   width?: string;
 }
 
@@ -16,6 +16,7 @@ withDefaults(defineProps<Props>(), {
       <b>{{ title }}</b>
     </span>
     <slot name="input"></slot>
+    <slot></slot>
   </div>
 </template>
 

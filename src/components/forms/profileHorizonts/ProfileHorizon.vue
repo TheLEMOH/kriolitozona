@@ -43,16 +43,8 @@ function UpdateSelected() {
     <template #fields>
       <Group :title="'Горизонты:'">
         <template #input>
-          <MultiSelect
-            v-model="selected"
-            :options="options"
-            display="chip"
-            optionLabel="name"
-            dataKey="name"
-            :maxSelectedLabels="7"
-            placeholder="Выберите горизонты"
-            @update:modelValue="UpdateSelected"
-          />
+          <MultiSelect v-model="selected" :options="options" display="chip" optionLabel="name" dataKey="name"
+            :maxSelectedLabels="7" placeholder="Выберите горизонты" @update:modelValue="UpdateSelected" />
         </template>
       </Group>
 

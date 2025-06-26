@@ -1,52 +1,22 @@
 <script lang="ts" setup>
-import { computed, ref, watch } from "vue";
+import { ComputedRef, inject, watch } from "vue";
 import TabMenu from "primevue/tabmenu";
 import Button from "primevue/button";
 import Divider from "primevue/divider";
-import { useRoute } from "vue-router";
-import { useAuthStore } from "../../store/auth";
 
-const route = useRoute();
-const authStore = useAuthStore();
+import useTheme from "../../composables/theme";
+import useHeader from "../../composables/header";
 
-const client = computed(() => authStore.getClient);
-const isEntered = computed(() => authStore.isEntered);
+const isMobile = inject<ComputedRef<boolean>>('isMobile')
 
-const itemsUser = ref([
-  { label: "Список экспериментов", icon: "pi pi-home", route: { name: "home" } },
-  { label: "Добавить эксперимент", icon: "pi pi-plus-circle", route: { name: "experimentCreate" } },
-  { label: "Пользователи", icon: "pi pi-users", route: { name: "userAll" } },
-  { label: "Добавить пользователя", icon: "pi pi-plus-circle", route: { name: "userCreate" } },
-  { label: "О проекте", icon: "pi pi-info-circle", route: { name: "about" } },
-  { label: "Контакты", icon: "pi pi-phone", route: { name: "contacts" } },
-]);
+const { items, isEntered, client, name, active, quit, setRouteIndex } = useHeader();
+const { changeTheme, setTheme } = useTheme();
 
-const itemsGuest = ref([
-  { label: "Войти", icon: "pi pi-sign-in", route: { name: "login" } },
-  { label: "О проекте", icon: "pi pi-info-circle", route: { name: "about" } },
-  { label: "Контакты", icon: "pi pi-phone", route: { name: "contacts" } },
-]); 
-
-const items = computed(() => {
-  if (isEntered.value) {
-    return itemsUser.value;
-  } else {
-    return itemsGuest.value;
-  }
-});
-
-const active = ref(0);
-
-const name = computed(() => route.name);
-
-const SetRouteIndex = () => {
-  active.value = items.value.findIndex((element) => element.route?.name == name.value);
-};
-
-SetRouteIndex();
+setRouteIndex();
+setTheme();
 
 watch(name, () => {
-  SetRouteIndex();
+  setRouteIndex();
 });
 </script>
 
@@ -55,19 +25,27 @@ watch(name, () => {
     <TabMenu :model="items" v-model:activeIndex="active" style="flex-shrink: 0">
       <template #item="{ item, props }">
         <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
-          <a :href="href" v-bind="props.action" @click="navigate">
-            <span v-bind="props.icon" />
-            <span v-bind="props.label">{{ item.label }}</span>
-          </a>
+          <template v-if="isMobile">
+            <a :href="href" v-bind="props.action" @click="navigate" v-tooltip.bottom="item.label">
+              <span v-bind="props.icon" />
+            </a>
+          </template>
+          <template v-else>
+            <a :href="href" v-bind="props.action" @click="navigate">
+              <span v-bind="props.icon" />
+              <span v-bind="props.label">{{ item.label }}</span>
+            </a>
+          </template>
+
         </router-link>
       </template>
     </TabMenu>
     <template v-if="isEntered">
       <Divider layout="vertical" />
-
       <div class="menubar-user">
         {{ client?.login }}
-        <Button icon="pi pi-sign-out" text rounded @click="authStore.quit()"> </Button>
+        <Button icon="pi pi-sign-out" text rounded @click="quit()"> </Button>
+        <Button icon="pi pi-moon" text rounded @click="changeTheme()"> </Button>
       </div>
     </template>
   </header>
@@ -77,10 +55,12 @@ watch(name, () => {
 .menubar {
   display: flex;
   justify-content: center;
-  overflow-x: auto;
+  position: relative;
   margin-bottom: 1rem;
-  background-color: var(--surface-50);
+  background-color: var(--surface-0);
+  border: var(--surface-50) 1px solid;
   scrollbar-width: none;
+  z-index: 100;
 }
 
 .menubar-user {

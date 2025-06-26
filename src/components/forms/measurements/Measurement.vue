@@ -40,23 +40,14 @@ function UpdateSelected() {
 </script>
 
 <template>
-  <Form :title="'Практические измерения (Список):'" type="vertical">
+  <Form :title="'Практические измерения теплового потока:'" type="vertical">
     <template #fields>
       <Group :title="'Показатели теплового потока:'">
         <template #input>
-          <MultiSelect
-            v-model="selected"
-            :options="options"
-            display="chip"
-            optionLabel="name"
-            dataKey="name"
-            :maxSelectedLabels="7"
-            placeholder="Выберите из списка"
-            @update:modelValue="UpdateSelected"
-          />
+          <MultiSelect v-model="selected" :options="options" display="chip" optionLabel="name" dataKey="name"
+            :maxSelectedLabels="7" placeholder="Выберите из списка" @update:modelValue="UpdateSelected" />
         </template>
       </Group>
-
       <MeasurementList :items="selected" @update-field="Update"></MeasurementList>
     </template>
   </Form>

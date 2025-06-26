@@ -36,11 +36,10 @@ const Enter = () => {
   max-width: 600px;
   background: var(--surface-0);
   padding: 2rem;
-  color: #fff;
   margin: 1rem;
   backdrop-filter: blur(10px);
   border-radius: 1rem;
-  border: #fff 1px solid;
+  border: var(--highlight-text-color) 1px solid;
   z-index: 10;
 }
 

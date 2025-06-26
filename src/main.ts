@@ -8,13 +8,13 @@ import router from "./router";
 import ToastService from "primevue/toastservice";
 import ConfirmationService from "primevue/confirmationservice";
 import PrimeVue from "primevue/config";
+import Tooltip from 'primevue/tooltip';
 
-import "primevue/resources/themes/lara-dark-blue/theme.css";
 import "primeicons/primeicons.css";
 
 const app = createApp(App);
 const pinia = createPinia();
-
+app.directive('tooltip', Tooltip);
 app.use(router);
 app.use(pinia);
 app.use(PrimeVue, {
