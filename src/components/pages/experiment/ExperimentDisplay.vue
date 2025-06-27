@@ -23,7 +23,6 @@ import ExperimentDTO from "../../../models/experiment";
 import HorizonDTO from "../../../components/forms/profileHorizonts/models";
 import DepthDTO from "../../../components/forms/profileDepth/models";
 import MeasurementDTO from "../../../components/forms/measurements/models";
-import Series from "../../../models/series";
 
 import createChartSeries from "../../../scripts/chart/createChartData";
 
@@ -45,20 +44,20 @@ const measurements: Ref = ref<MeasurementDTO[]>(await MeasurementService.getByEx
 
 const groupForChart = [{
   label: 'График влажности по глубине',
-  x: 'value',
-  y: 'humidity',
+  y: 'value',
+  x: 'humidity',
 }, {
   label: 'График распределения температуры по глубине',
-  x: 'value',
-  y: 'temperatureAtDepth',
+  y: 'value',
+  x: 'temperatureAtDepth',
 }, {
   label: 'График теплового потока по глубине',
-  x: 'value',
-  y: 'heatFluxValue',
+  y: 'value',
+  x: 'heatFluxValue',
 }, {
   label: 'График содержания органического вещества по глубине',
-  x: 'value',
-  y: 'organicContentSubstances',
+  y: 'value',
+  x: 'organicContentSubstances',
 }]
 
 const charts = groupForChart.map(group => {
@@ -95,7 +94,7 @@ const subtitle = computed(() => {
         <div class="group-space">
           <GroupDisplay :title="'Присутствие мерзлоты'" :value="dictonary[item.isPermafrost]"></GroupDisplay>
           <GroupDisplay :title="'Пирогенный фактор'" :value="item.isPyrogenic"></GroupDisplay>
-          <GroupDisplay :title="'Граница залегания мерзлоты'" :value="item.permafrostBoundary"></GroupDisplay>
+          <GroupDisplay :title="'Граница залегания мерзлоты, см'" :value="item.permafrostBoundary"></GroupDisplay>
           <GroupDisplay :title="'Число разрезов на почвенном профиле'" :value="item.numberOfSoilCuts"></GroupDisplay>
           <GroupDisplay :title="'Грансостав'" :value="item.granularComposition"></GroupDisplay>
         </div>
@@ -129,15 +128,38 @@ const subtitle = computed(() => {
     <ImageEdit :id="item.id" :images="item.images"></ImageEdit>
     <FileEdit :id="item.id" :files="item.files"></FileEdit>
 
-    <Form v-for="chart in charts" :title="chart.label" :center="true" :fill='true'>
-      <template #fields>
-        <LineChart :options="lineLayout" :series="chart.series"></LineChart>
-      </template>
-    </Form>
+
+    <div class="group-chart">
+      <Form v-for="chart in charts" :title="chart.label" :center="true" :fill="true" class="group-chart-form">
+        <template #fields>
+          <LineChart :options="lineLayout" :series="chart.series"></LineChart>
+        </template>
+      </Form>
+    </div>
   </div>
 </template>
 
 <style scoped>
+.group-chart {
+  display: flex;
+  gap: 0rem 1rem;
+  flex-wrap: wrap;
+}
+
+.group-chart-form {
+  width: calc(100% / 2 - 0.5rem) !important
+}
+
+@media (max-width: 768px) {
+  .group-chart {
+    flex-direction: column;
+  }
+
+  .group-chart-form {
+    width: calc(100%) !important
+  }
+}
+
 .group-space {
   display: flex;
   flex-direction: column;

@@ -17,15 +17,16 @@ const props = defineProps<{
 const emit = defineEmits(["update"]);
 
 const options = ref<DepthDTO[]>([
-  { name: "5см", value: 5 },
-  { name: "10см", value: 10 },
-  { name: "15см", value: 15 },
-  { name: "20см", value: 20 },
-  { name: "25см", value: 25 },
-  { name: "30см", value: 30 },
-  { name: "35см", value: 35 },
-  { name: "40см", value: 40 },
-  { name: "45см", value: 45 },
+  { name: "0", value: 0 },
+  { name: "5", value: 5 },
+  { name: "10", value: 10 },
+  { name: "15", value: 15 },
+  { name: "20", value: 20 },
+  { name: "25", value: 25 },
+  { name: "30", value: 30 },
+  { name: "35", value: 35 },
+  { name: "40", value: 40 },
+  { name: "45", value: 45 },
 ]);
 
 const selected: Ref = ref<DepthDTO[]>(props.data);
@@ -43,18 +44,10 @@ function UpdateSelected() {
 <template>
   <Form :title="'Характеристики почвенного профиля по глубинам:'" type="vertical">
     <template #fields>
-      <Group :title="'Глубины:'">
+      <Group :title="'Глубины, см'">
         <template #input>
-          <MultiSelect
-            v-model="selected"
-            :options="options"
-            display="chip"
-            optionLabel="name"
-            dataKey="name"
-            :maxSelectedLabels="7"
-            placeholder="Выберите глубины"
-            @update:modelValue="UpdateSelected"
-          />
+          <MultiSelect v-model="selected" :options="options" display="chip" optionLabel="name" dataKey="name"
+            :maxSelectedLabels="7" placeholder="Выберите глубины" @update:modelValue="UpdateSelected" />
         </template>
       </Group>
 

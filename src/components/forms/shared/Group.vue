@@ -13,7 +13,7 @@ withDefaults(defineProps<Props>(), {
 <template>
   <div class="form-body-group" :style="{ maxWidth: width }">
     <span class="form-body-group-label">
-      <b>{{ title }}</b>
+      <b v-html="title"></b>
     </span>
     <slot name="input"></slot>
     <slot></slot>

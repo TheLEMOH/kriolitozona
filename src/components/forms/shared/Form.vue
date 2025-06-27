@@ -7,6 +7,7 @@ interface Props {
   gap?: number;
   fill?: boolean;
   width?: string;
+  widthForm?: string;
 }
 
 withDefaults(defineProps<Props>(), {
@@ -17,20 +18,22 @@ withDefaults(defineProps<Props>(), {
   gap: () => 1,
   fill: () => false,
   width: () => "100%",
+  widthForm: () => '100%'
 });
 </script>
 
 <template>
-  <div class="form" :class="[center ? 'form-center' : '']">
+  <div class="form" :class="[center ? 'form-center' : '']" :style="{ width: widthForm }">
     <h2>{{ title }}</h2>
     <h3 v-if="subtitle">{{ subtitle }}</h3>
-    <div :class="['form-body', type == 'horizontal' ? 'horizontal' : 'vertical', fill ? 'fill' : '']" :style="{ gap: gap + 'rem', maxWidth: width }">
+    <div :class="['form-body', type == 'horizontal' ? 'horizontal' : 'vertical', fill ? 'fill' : '']"
+      :style="{ gap: gap + 'rem', maxWidth: width }">
       <slot name="fields"></slot>
     </div>
   </div>
 </template>
 
-<style>
+<style scoped>
 .form {
   background-color: var(--surface-50);
   padding: 1rem;
@@ -38,7 +41,6 @@ withDefaults(defineProps<Props>(), {
   border: 1px solid var(--surface-d);
   margin-bottom: 1rem;
   overflow-x: auto;
-  width: 100%;
   color: var(--surface-900);
 }
 

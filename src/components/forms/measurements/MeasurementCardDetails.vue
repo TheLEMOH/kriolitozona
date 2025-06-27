@@ -8,9 +8,9 @@ defineProps<{
 </script>
 
 <template>
-    <GroupDisplay :title="'Tемпература воздуха при эксперименте'" :value="item.airTemperature"></GroupDisplay>
-    <GroupDisplay :title="'Грубина СТС'" :value="item.layerDepth"></GroupDisplay>
-    <GroupDisplay :title="'Влажность воздуха'" :value="item.humidity"></GroupDisplay>
+    <GroupDisplay :title="'Tемпература воздуха, &deg;C'" :value="item.airTemperature"></GroupDisplay>
+    <GroupDisplay :title="'Грубина СТС, см'" :value="item.layerDepth"></GroupDisplay>
+    <GroupDisplay :title="'Влажность воздуха, %'" :value="item.humidity"></GroupDisplay>
     <GroupDisplay :title="'Альбедо поверхности (число повторностей)'" :value="item.surfaceAlbedo"></GroupDisplay>
     <GroupDisplay :title="'Количество георадарных треков'" :value="item.numberOfGPRTracks"></GroupDisplay>
     <GroupDisplay :title="'Частота сканирования'" :value="item.scanningFrequency"></GroupDisplay>
