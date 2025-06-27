@@ -17,7 +17,7 @@ const emit = defineEmits(["update-field"]);
 <template>
   <List :length="items.length">
     <template #body>
-      <Item v-for="(item, index) in items" :title="item.name" :index="index">
+      <Item v-for="(item, index) in items" :title="`${item.value}`" :index="index">
         <template #fields>
           <Group :title="'Температура на глубине &deg;C'">
             <template #input>

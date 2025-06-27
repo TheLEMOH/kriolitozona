@@ -6,7 +6,7 @@ import Table from "../shared/Table.vue";
 <template>
   <Table :items="[]" :tableLayout="'auto'">
     <template #columns>
-      <Column field="name" header="Глубина"></Column>
+      <Column field="value" header="Глубина, см"></Column>
       <Column field="temperatureAtDepth" header="Температура &deg;C"></Column>
       <Column field="humidity">
         <template #header>

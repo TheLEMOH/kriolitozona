@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import Group from "../shared/Group.vue";
-import InputText from "primevue/inputtext";
 import InputNumber from "primevue/inputnumber";
 
 import List from "../shared/List.vue";

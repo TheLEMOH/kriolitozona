@@ -46,7 +46,7 @@ function UpdateSelected() {
     <template #fields>
       <Group :title="'Глубины, см'">
         <template #input>
-          <MultiSelect v-model="selected" :options="options" display="chip" optionLabel="name" dataKey="name"
+          <MultiSelect v-model="selected" :options="options" display="chip" optionLabel="value" dataKey="value"
             :maxSelectedLabels="7" placeholder="Выберите глубины" @update:modelValue="UpdateSelected" />
         </template>
       </Group>

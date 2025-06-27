@@ -1,11 +1,11 @@
 export default interface HorizonDTO {
   name: string;
-  value: Number;
-  depthLowerLimitOfHorizon?: Number;
-  horizonDensity?: Number;
-  organicContentSubstances?: Number;
-  physicalSandContent?: Number;
-  physicalClayContent?: Number;
+  value: number;
+  depthLowerLimitOfHorizon?: number;
+  horizonDensity?: number;
+  organicContentSubstances?: number;
+  physicalSandContent?: number;
+  physicalClayContent?: number;
   granularComposition?: String;
-  experimentId?: Number;
+  experimentId?: number;
 }

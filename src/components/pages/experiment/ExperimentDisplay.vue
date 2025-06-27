@@ -93,7 +93,7 @@ const subtitle = computed(() => {
         </div>
         <div class="group-space">
           <GroupDisplay :title="'Присутствие мерзлоты'" :value="dictonary[item.isPermafrost]"></GroupDisplay>
-          <GroupDisplay :title="'Пирогенный фактор'" :value="item.isPyrogenic"></GroupDisplay>
+          <GroupDisplay :title="'Пирогенный фактор'" :value="dictonary[item.isPyrogenic]"></GroupDisplay>
           <GroupDisplay :title="'Граница залегания мерзлоты, см'" :value="item.permafrostBoundary"></GroupDisplay>
           <GroupDisplay :title="'Число разрезов на почвенном профиле'" :value="item.numberOfSoilCuts"></GroupDisplay>
           <GroupDisplay :title="'Грансостав'" :value="item.granularComposition"></GroupDisplay>
