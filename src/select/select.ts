@@ -20,7 +20,13 @@ export const isExist = [
   { label: "Нет", value: false },
 ];
 
+export const isExistRus = [
+  { label: "Да", value: 'Да' },
+  { label: "Нет", value: 'Нет' },
+];
+
 export const compositions = [
+  { label: 'Нет' },
   { label: "Песчаный" },
   { label: "Супесчаный" },
   { label: "Глинистый" },

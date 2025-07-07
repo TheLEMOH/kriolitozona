@@ -20,10 +20,14 @@ import Table from "../shared/Table.vue";
       </Column>
       <Column field="thermalConductivityIndex">
         <template #header>
-          <span>Показатель теплопроводности, Вт/м<sup>2</sup></span>
+          <span>Показатель теплопроводности, Вт/м&deg;C</span>
         </template>
       </Column>
-      <Column field="heatFluxValue" header="Значение теплового потока"></Column>
+      <Column field="heatFluxValue">
+        <template #header>
+          <span>Значение теплового потока, Вт/м<sup>2</sup></span>
+        </template>
+      </Column>
       <Column field="organicContentSubstances" header="Содержание органического вещества, %"></Column>
     </template>
   </Table>

@@ -44,7 +44,6 @@ const Enter = () => {
 }
 
 .login-input {
-  color: white;
   background: transparent !important;
 }
 

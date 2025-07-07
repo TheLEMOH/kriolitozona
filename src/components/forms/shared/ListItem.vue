@@ -2,7 +2,6 @@
 defineProps({
   title: {
     type: String,
-    default: "Нет наименования",
   },
   index: {
     type: Number,

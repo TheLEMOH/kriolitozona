@@ -12,6 +12,7 @@ import { microrelief, typesOfSoil, isExist, compositions } from "../../../select
 defineProps<{ item: ExperimentDTO }>();
 
 const emit = defineEmits(["update-field"]);
+
 </script>
 
 <template>

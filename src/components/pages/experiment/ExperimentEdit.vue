@@ -29,30 +29,41 @@ import MeasurementDTO from "../../../components/forms/measurements/models";
 import ExperimentHeader from "../../header/ExperimentHeader.vue";
 import imageService from "../../../service/image";
 import fileService from "../../../service/file";
+import MeasurementDetailsService from "../../../service/measurementDetails";
+import MeasurementDetailsDTO from "../../../models/measurementDetails";
+import useMeasurementDetails from "../../../composables/useMeasurementDetails";
 
 const router = useRouter();
 const route = useRoute();
 const toast = useToast();
 
+const id = route.params.id;
+const typePage = route.meta.typePage;
+
 const item: Ref = ref<ExperimentDTO>({ images: [], files: [] });
 const depths: Ref = ref<DepthDTO[]>([]);
 const horizons: Ref = ref<HorizonDTO[]>([]);
 const measurements: Ref = ref<MeasurementDTO[]>([]);
+const measurementDetails: Ref = ref<MeasurementDetailsDTO[]>([{ experimentId: id }])
 
-const id = route.params.id;
-const typePage = route.meta.typePage;
+const { addDetails, deleteDetails } = useMeasurementDetails(measurementDetails)
 
 if (id) {
   const promiseExperiment = ExperimentService.getById(id);
   const promiseHorizon = HorizonService.getByExperiment(id);
   const promiseDepth = DepthService.getByExperiment(id);
   const promiseMeasurement = MeasurementService.getByExperiment(id);
+  const promiseMeasurementDetails = MeasurementDetailsService.getByExperiment(id)
 
-  await Promise.all([promiseExperiment, promiseHorizon, promiseDepth, promiseMeasurement]).then((data) => {
+  await Promise.all([promiseExperiment, promiseHorizon, promiseDepth, promiseMeasurement, promiseMeasurementDetails]).then((data) => {
     item.value = data[0];
     horizons.value = data[1];
     depths.value = data[2];
     measurements.value = data[3];
+    measurementDetails.value = data[4]
+
+    if (data[4].length == 0)
+      measurementDetails.value.push({})
   });
 }
 
@@ -70,6 +81,10 @@ function UpdateHorizon(e: HorizonDTO[]) {
 
 function UpdateMeasurement(e: MeasurementDTO[]) {
   measurements.value = e;
+}
+
+function UpdateMeasurementDetails(update: { field: string, value: number | string, index: number }) {
+  measurementDetails.value[update.index][update.field] = update.value;
 }
 
 const Post = async () => {
@@ -121,11 +136,16 @@ const Put = async () => {
     measurement.experimentId = item.value.id;
   });
 
+  measurementDetails.value.forEach((measurement: MeasurementDetailsDTO) => {
+    measurement.experimentId = item.value.id;
+  });
+
   const promiseDepth = DepthService.updateBulk(depths.value, item.value.id);
   const promiseHorizon = HorizonService.updateBulk(horizons.value, item.value.id);
   const promiseMeasurement = MeasurementService.updateBulk(measurements.value, item.value.id);
+  const promiseMeasurementDetails = MeasurementDetailsService.updateBulk(measurementDetails.value, item.value.id)
 
-  Promise.all([promiseExperiment, promiseDepth, promiseHorizon, promiseMeasurement])
+  Promise.all([promiseExperiment, promiseDepth, promiseHorizon, promiseMeasurement, promiseMeasurementDetails])
     .then(() => {
       toast.add({ severity: "success", summary: "Изменение", detail: "Эксперимент изменен", life: 2000 });
 
@@ -192,7 +212,8 @@ const FileDelete = async (file: string) => {
     <DescriptionSoil :item="item" @update-field="Update"></DescriptionSoil>
     <ProfileHorizon :data="horizons" @update="UpdateHorizon"></ProfileHorizon>
     <ProfileDepth :data="depths" @update="UpdateDepth"></ProfileDepth>
-    <MeasurementDetails :item="item" @update-field="Update"></MeasurementDetails>
+    <MeasurementDetails :item="measurementDetails" @update-field="UpdateMeasurementDetails" @add="addDetails"
+      @delete="deleteDetails"></MeasurementDetails>
     <Measurement :data="measurements" @update="UpdateMeasurement"></Measurement>
     <ImagesUpload :id="item.id" @done="ImageDone" v-if="typePage == 'edit'"></ImagesUpload>
     <ImageEdit :id="item.id" :images="item.images" @delete="ImageDelete" v-if="typePage == 'edit'"></ImageEdit>
