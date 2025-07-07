@@ -27,6 +27,8 @@ import MeasurementDTO from "../../../components/forms/measurements/models";
 import createChartSeries from "../../../scripts/chart/createChartData";
 
 import lineLayout from "../../../scripts/chart/lineLayout";
+import MeasurementDetailsDTO from "../../../models/measurementDetails";
+import MeasurementDetailsService from "../../../service/measurementDetails";
 
 const route = useRoute();
 
@@ -41,6 +43,7 @@ const item: Ref = ref<ExperimentDTO>(await ExperimentService.getById(id));
 const horizons: Ref = ref<HorizonDTO[]>(await HorizonService.getByExperiment(id));
 const depths: Ref = ref<DepthDTO[]>(await DepthService.getByExperiment(id));
 const measurements: Ref = ref<MeasurementDTO[]>(await MeasurementService.getByExperiment(id));
+const measurementDetails: Ref = ref<MeasurementDetailsDTO>(await MeasurementDetailsService.getByExperiment(id))
 
 const groupForChart = [{
   label: 'График влажности по глубине',
@@ -115,7 +118,7 @@ const subtitle = computed(() => {
 
     <Form :title="'Практические измерения'" :gap="2" :fill="true">
       <template #fields>
-        <MeasurementCardDetails :item="item"></MeasurementCardDetails>
+        <MeasurementCardDetails :items="measurementDetails"></MeasurementCardDetails>
       </template>
     </Form>
 

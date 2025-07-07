@@ -65,8 +65,8 @@ const UpdateFilters = (e: DataTableFilterMeta) => {
     <template #columns>
       <Column field="name" header="Имя п/п" :showFilterMenu="false" style="width: 200px">
         <template #filter="{ filterModel, filterCallback }">
-          <InputText v-model="filterModel.value" @input="filterCallback()" type="text" class="p-column-filter"
-            placeholder="Поиск по имени" />
+          <InputText v-model="filterModel.value" @input="filterCallback()" type="text" size="small"
+            class="p-column-filter" placeholder="Поиск по имени" />
         </template>
       </Column>
       <Column field="date" header="Дата" :showFilterMenu="false" style="width: 140px">
