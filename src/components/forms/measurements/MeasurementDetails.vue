@@ -83,7 +83,8 @@ const disableDelete = computed(() => {
               </Group>
 
               <div class="buttons">
-                <Button severity="danger" icon="pi pi-trash" @click="emit('delete')" :disabled="disableDelete"></Button>
+                <Button severity="danger" icon="pi pi-trash" @click="emit('delete', index)"
+                  :disabled="disableDelete"></Button>
                 <Button icon="pi pi-plus" @click="emit('add')" v-if="index + 1 == item.length"></Button>
               </div>
 
